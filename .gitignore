@@ -107,3 +107,5 @@ local.properties
 .idea
 *.iml
 
+.obsidian
+
