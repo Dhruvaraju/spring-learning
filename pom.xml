@@ -16,5 +16,6 @@
         <module>user-service</module>
         <module>oauth2-with-spring</module>
         <module>docs</module>
+        <module>user-api-with-auth</module>
     </modules>
 </project>
