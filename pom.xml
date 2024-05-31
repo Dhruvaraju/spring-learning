@@ -17,5 +17,6 @@
         <module>oauth2-with-spring</module>
         <module>docs</module>
         <module>user-api-with-auth</module>
+        <module>ai-with-spring</module>
     </modules>
 </project>
