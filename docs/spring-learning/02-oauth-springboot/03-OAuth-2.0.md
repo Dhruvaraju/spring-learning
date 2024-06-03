@@ -58,3 +58,54 @@ There are 2 types of access tokens:
 
 **Refresh Access token :**
 This is a special grant type, which is used to exchange a refresh token for an access token 
+
+#### Authorization Code Flow
+
+1)  Initially user will make a get call to auth url
+
+```shell
+curl --location 'http://{KEYCLOAK_SERVER_URL}/realms/{NAME_OF_REALM}/protocol/openid-connect/auth?client_id={CREATED_CLIENT}&response_type=code&scope=openid%20profile&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2Fusers&state=sampleatate'
+```
+
+- Auth URL query parameters explained
+	- `client_id` is the unique identifier created in your realm.
+	- `response_type` should be constant value `code`
+	- `scope` will differ based on the required information
+		- In the above example as OpenID and profile information is required both are mentioned.
+	- `redirect_uri` The url to which generated code should be sent
+	- `state` is CSRF token which should be a unique value for each session.
+
+2) A login page will be displayed, provide valid credentials and click submit.
+3) It will redirect to the `redirect_uri` with a `code` as shown below
+
+```shell
+curl http://localhost:8085/users?state=sampleatate&session_state=5c518138-f4b6-4670-9d82-1181162a7d4f&iss=http%3A%2F%2Flocalhost%3A8443%2Frealms%2Falpha-dev&code=GENERATED_CODE
+```
+- The query parameter `code` can be used to get an access token
+4) `code` can now be used to make a call to get `access_token`. A post call need to be made to the token url as shown below
+
+```shell
+curl --location 'http://localhost:8443/realms/alpha-dev/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=authorization_code' \
+--data-urlencode 'client_id=developers' \
+--data-urlencode 'client_secret={CLIENT_SECRET_GENERATED}' \
+--data-urlencode 'code={CODE_GENERATED}' \
+--data-urlencode 'redirect_uri=http://localhost:8085/users' \
+--data-urlencode 'scope=openid profile email'
+```
+
+A response with access_token will be provided
+```json
+{
+    "access_token": "GENERATED_ACCESS_TOKEN",
+    "expires_in": 300,
+    "refresh_expires_in": 1785,
+    "refresh_token": "GENERATED_REFRESH_TOKEN",
+    "token_type": "Bearer",
+    "id_token": "ID_TOKEN",
+    "not-before-policy": 0,
+    "session_state": "5c518138-f4b6-4670-9d82-1181162a7d4f",
+    "scope": "openid profile email"
+}
+```
