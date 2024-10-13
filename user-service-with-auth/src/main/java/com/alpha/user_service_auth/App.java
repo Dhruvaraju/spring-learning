@@ -1,13 +1,11 @@
-package com.alpha.userapiwithauth;
+package com.alpha.user_service_auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserApiWithAuthApplication {
-
+public class App {
     public static void main(String[] args) {
-        SpringApplication.run(UserApiWithAuthApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
-
 }

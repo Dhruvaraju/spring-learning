@@ -109,3 +109,4 @@ local.properties
 
 .obsidian
 
+./user-service-with-auth/src/main/resources/application-local.yml

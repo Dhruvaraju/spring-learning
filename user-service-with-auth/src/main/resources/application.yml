@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: user-with-auth
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/alpha-dev
+          jwk-set-uri: http://localhost:8443/realms/alpha-dev/protocol/openid-connect/certs
+server:
+  port: 9091
